@@ -1,45 +1,239 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BusinessLogic.Service;
+﻿using BusinessLogic.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessLogic.IService;
+using DataAccess.IRepository;
+using Moq;
+using DataAccess.DTO;
+using DataAccess.Models;
 
 namespace BusinessLogic.Service.Tests
 {
     [TestClass()]
     public class ProductServiceTests
     {
-        [TestMethod()]
-        public void CreateProductTest()
+        private readonly ProductService _productService;
+        private readonly Mock<IProductRepository> _mockProductRepository;
+
+        public ProductServiceTests()
         {
-            Assert.Fail();
+            _mockProductRepository = new Mock<IProductRepository>();
+            _productService = new ProductService(_mockProductRepository.Object);
+            
         }
 
-        [TestMethod()]
-        public void DeleteProductTest()
+        [TestMethod]
+        public void CreateProduct_ShouldCallCreateProductOnRepository()
         {
-            Assert.Fail();
+            // Arrange
+            var request = new ProductRequest
+            {
+                Name = "Test Product",
+                Description = "Test Description",
+                Price = 100m,
+                Quantity = 10,
+                CategoryId = 1
+            };
+            var product = new Product
+            {
+                ProductId = 1,
+                Name = "Test Product",
+                Description = "Test Description",
+                Price = 100m,
+                Quantity = 10,
+                CategoryId = 1
+            };
+            _mockProductRepository.Setup(repo => repo.CreateProduct(request)).Returns(product);
+
+            // Act
+            var result = _productService.CreateProduct(request);
+
+            // Assert
+            Assert.AreEqual(product, result);
         }
 
-        [TestMethod()]
-        public void GetProductByIdTest()
+        [TestMethod]
+        public void CreateProduct_ShouldHandleInvalidRequest()
         {
-            Assert.Fail();
+            // Arrange
+            var invalidRequest = new ProductRequest
+            {
+                Name = "",
+                Description = "",
+                Price = -1m, 
+                Quantity = 10,
+                CategoryId = 1
+            };
+
+            // Act
+            var result = _productService.CreateProduct(invalidRequest);
+
+            // Assert
+            Assert.IsNull(result);
         }
 
-        [TestMethod()]
-        public void GetProductsTest()
+        [TestMethod]
+        public void DeleteProduct_ShouldCallRepositoryDeleteProduct()
         {
-            Assert.Fail();
+            // Arrange
+            int productId = 1;
+            _mockProductRepository.Setup(repo => repo.DeleteProduct(productId)).Returns(true);
+
+            // Act
+            var result = _productService.DeleteProduct(productId);
+
+            // Assert
+            Assert.IsTrue(result);
         }
 
-        [TestMethod()]
-        public void UpdateProductTest()
+        [TestMethod]
+        public void DeleteProduct_ShouldReturnFalseWhenNotFoundId()
         {
-            Assert.Fail();
+            // Arrange
+            int productId = 1;
+
+            // Act
+            var result = _productService.DeleteProduct(productId);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void GetProductById_ShouldCallRepositoryGetProductById()
+        {
+            // Arrange
+            int productId = 1;
+            var product = new Product
+            {
+                ProductId = productId,
+                Name = "Test Product",
+                Description = "Test Description",
+                Price = 100m,
+                Quantity = 10,
+                CategoryId = 1
+            };
+            _mockProductRepository.Setup(repo => repo.GetProductById(productId)).Returns(product);
+
+            // Act
+            var result = _productService.GetProductById(productId);
+
+            // Assert
+            Assert.AreEqual(product, result);
+        }
+
+        [TestMethod]
+        public void GetProductById_ShouldReturnNullWhenNotFoundId()
+        {
+            // Arrange
+            int productId = 1;
+
+            // Act
+            var result = _productService.GetProductById(productId);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void GetProducts_ShouldCallRepositoryGetProducts()
+        {
+            // Arrange
+            var products = new List<Product>
+            {
+                new Product
+                {
+                    ProductId = 1,
+                    Name = "Test Product",
+                    Description = "Test Description",
+                    Price = 100m,
+                    Quantity = 10,
+                    CategoryId = 1
+                }
+            };
+            _mockProductRepository.Setup(repo => repo.GetProducts()).Returns(products);
+
+            // Act
+            var result = _productService.GetProducts();
+
+            // Assert
+            Assert.AreEqual(products, result);
+        }
+
+        [TestMethod]
+        public void UpdateProduct_ShouldCallRepositoryUpdateProduct()
+        {
+            // Arrange
+            int productId = 1;
+            var request = new ProductRequest
+            {
+                Name = "Updated Product",
+                Description = "Updated Description",
+                Price = 150m,
+                Quantity = 20,
+                CategoryId = 2
+            };
+            var product = new Product
+            {
+                ProductId = productId,
+                Name = "Updated Product",
+                Description = "Updated Description",
+                Price = 150m,
+                Quantity = 20,
+                CategoryId = 2
+            };
+            _mockProductRepository.Setup(repo => repo.UpdateProduct(productId, request)).Returns(product);
+
+            // Act
+            var result = _productService.UpdateProduct(productId, request);
+
+            // Assert
+            Assert.AreEqual(product, result);
+        }
+
+        [TestMethod]
+        public void UpdateProduct_ShouldHandleInvalidRequest()
+        {
+            // Arrange
+            int productId = 1;
+            var request = new ProductRequest
+            {
+                Name = "",
+                Description = "",
+                Price = 150m,
+                Quantity = 20,
+                CategoryId = 2
+            };
+
+            // Act
+            var result = _productService.UpdateProduct(productId, request);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void UpdateProduct_ShouldReturnNullWhenNotFoundId()
+        {
+            // Arrange
+            int productId = 1;
+            var request = new ProductRequest
+            {
+                Name = "Updated Product",
+                Description = "Updated Description",
+                Price = 150m,
+                Quantity = 20,
+                CategoryId = 2
+            };
+
+            // Act
+            var result = _productService.UpdateProduct(productId, request);
+
+            // Assert
+            Assert.IsNull(result);
         }
     }
 }
