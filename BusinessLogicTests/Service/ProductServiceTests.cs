@@ -17,19 +17,11 @@ namespace BusinessLogic.Service.Tests
     {
         private readonly ProductService _productService;
         private readonly Mock<IProductRepository> _mockProductRepository;
-        private List<Product> _listProduct;
 
         public ProductServiceTests()
         {
             _mockProductRepository = new Mock<IProductRepository>();
             _productService = new ProductService(_mockProductRepository.Object);
-/*            _listProduct = new List<Product>()
-            {
-                new Product{ProductId = 1, Name = "Product1", Description = "Des 1", Price = 1, Quantity = 1, CategoryId = 1},
-                new Product{ProductId = 2, Name = "Product2", Description = "Des 2", Price = 2, Quantity = 2, CategoryId = 2},
-                new Product{ProductId = 3, Name = "Product3", Description = "Des 3", Price = 3, Quantity = 3, CategoryId = 3},
-            };
-            _mockProductRepository.Setup(repo => repo.GetProducts()).Returns(_listProduct);*/
         }
 
         [TestMethod]
