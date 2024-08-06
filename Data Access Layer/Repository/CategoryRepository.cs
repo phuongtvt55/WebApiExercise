@@ -1,40 +1,35 @@
-﻿using DataAccess.DTO;
-using DataAccess.Models;
-using DataAccess.DAO;
+﻿using DataAccess.DAO;
+using DataAccess.DTO;
 using DataAccess.IRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DataAccess.Models;
 
 namespace DataAccess.Repository
 {
     public class CategoryRepository : ICategoryRepository
     {
-        public Category CreateCategory(CategoryRequest request)
+        public async Task<Category> CreateCategory(CategoryRequest request)
         {
-            return CategoryDAO.GetInstance.CreateCategory(request);
+            return await CategoryDAO.GetInstance.CreateCategory(request);
         }
 
-        public bool DeleteCategory(int categoryId)
+        public async Task<bool> DeleteCategory(int categoryId)
         {
-            return CategoryDAO.GetInstance.DeleteCategory(categoryId);
+            return await CategoryDAO.GetInstance.DeleteCategory(categoryId);
         }
 
-        public IEnumerable<Category> GetCategories()
+        public async Task<IEnumerable<Category>> GetCategories()
         {
-            return CategoryDAO.GetInstance.GetCategories();
+            return await CategoryDAO.GetInstance.GetCategories();
         }
 
-        public Category GetCategoryById(int categoryId)
+        public async Task<Category> GetCategoryById(int categoryId)
         {
-            return CategoryDAO.GetInstance.GetCategoryById(categoryId);
+            return await CategoryDAO.GetInstance.GetCategoryById(categoryId);
         }
 
-        public Category UpdateCategory(int categoryId, CategoryRequest request)
+        public async Task<Category> UpdateCategory(int categoryId, CategoryRequest request)
         {
-            return CategoryDAO.GetInstance.UpdateCategory(categoryId, request);
+            return await CategoryDAO.GetInstance.UpdateCategory(categoryId, request);
         }
     }
 }

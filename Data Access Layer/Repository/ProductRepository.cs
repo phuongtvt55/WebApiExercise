@@ -1,40 +1,35 @@
-﻿using DataAccess.DTO;
-using DataAccess.Models;
-using DataAccess.DAO;
+﻿using DataAccess.DAO;
+using DataAccess.DTO;
 using DataAccess.IRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DataAccess.Models;
 
 namespace DataAccess.Repository
 {
     public class ProductRepository : IProductRepository
     {
-        public Product CreateProduct(ProductRequest request)
+        public async Task<Product> CreateProduct(ProductRequest request)
         {
-            return ProductDAO.GetInstance.CreateProduct(request);
+            return await ProductDAO.GetInstance.CreateProduct(request);
         }
 
-        public bool DeleteProduct(int productId)
+        public async Task<bool> DeleteProduct(int productId)
         {
-            return ProductDAO.GetInstance.DeleteProduct(productId);
+            return await ProductDAO.GetInstance.DeleteProduct(productId);
         }
 
-        public Product GetProductById(int id)
+        public async Task<Product> GetProductById(int id)
         {
-            return ProductDAO.GetInstance.GetProductById(id);
+            return await ProductDAO.GetInstance.GetProductById(id);
         }
 
-        public IEnumerable<Product> GetProducts()
+        public async Task<IEnumerable<Product>> GetProducts()
         {
-            return ProductDAO.GetInstance.GetProducts();
+            return await ProductDAO.GetInstance.GetProducts();
         }
 
-        public Product UpdateProduct(int productId, ProductRequest request)
+        public async Task<Product> UpdateProduct(int productId, ProductRequest request)
         {
-            return ProductDAO.GetInstance.UpdateProduct(productId, request);
+            return await ProductDAO.GetInstance.UpdateProduct(productId, request);
         }
     }
 }
