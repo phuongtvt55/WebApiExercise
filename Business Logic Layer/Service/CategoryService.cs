@@ -1,41 +1,35 @@
 ﻿using BusinessLogic.IService;
-using DataAccess.DAO;
 using DataAccess.DTO;
 using DataAccess.IRepository;
 using DataAccess.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.Service
 {
     public class CategoryService(ICategoryRepository _categoryRepository) : ICategoryService
     {
-        public Category CreateCategory(CategoryRequest request)
+        public async Task<Category> CreateCategory(CategoryRequest request)
         {
-            return _categoryRepository.CreateCategory(request);
+            return await _categoryRepository.CreateCategory(request);
         }
 
-        public bool DeleteCategory(int categoryId)
+        public async Task<bool> DeleteCategory(int categoryId)
         {
-            return _categoryRepository.DeleteCategory(categoryId);
+            return await _categoryRepository.DeleteCategory(categoryId);
         }
 
-        public IEnumerable<Category> GetCategories()
+        public async Task<IEnumerable<Category>> GetCategories()
         {
-            return _categoryRepository.GetCategories();
+            return await _categoryRepository.GetCategories();
         }
 
-        public Category GetCategoryById(int categoryId)
+        public async Task<Category> GetCategoryById(int categoryId)
         {
-            return _categoryRepository.GetCategoryById(categoryId);
+            return await _categoryRepository.GetCategoryById(categoryId);
         }
 
-        public Category UpdateCategory(int categoryId, CategoryRequest request)
+        public async Task<Category> UpdateCategory(int categoryId, CategoryRequest request)
         {
-            return _categoryRepository.UpdateCategory(categoryId, request);
+            return await _categoryRepository.UpdateCategory(categoryId, request);
         }
     }
 }

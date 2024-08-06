@@ -1,11 +1,7 @@
-﻿using DataAccess.DTO;
+﻿using DataAccess.Config;
+using DataAccess.DTO;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DAO
 {
@@ -28,13 +24,13 @@ namespace DataAccess.DAO
             }
         }
 
-        public IEnumerable<Product> GetProducts()
+        public async Task<IEnumerable<Product>> GetProducts()
         {
             var listProduct = new List<Product>();
             try
             {
                 using var context = new ExerciseDbContext();
-                listProduct = context.Products.Include(c => c.Category).ToList();
+                listProduct = await context.Products.Include(c => c.Category).AsNoTracking().ToListAsync();
             }
             catch (Exception ex)
             {
@@ -43,36 +39,14 @@ namespace DataAccess.DAO
             return listProduct;
         }
 
-        public Product GetProductById(int id)
+        public async Task<Product> GetProductById(int id)
         {
             var product = new Product();
 
             try
             {
                 using var context = new ExerciseDbContext();
-                product = context.Products.Where(p => p.ProductId == id).FirstOrDefault();                
-            }catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
-            return product;
-        }
-
-        public Product CreateProduct(ProductRequest request)
-        {
-            Product product = new Product();
-            try
-            {
-                using var context = new ExerciseDbContext();
-
-                product.Name = request.Name;
-                product.Description = request.Description;
-                product.Price = request.Price;
-                product.Quantity = request.Quantity;  
-                product.CategoryId = request.CategoryId;
-                context.Products.Add(product);
-                context.SaveChanges();
+                product = await context.Products.Where(p => p.ProductId == id).AsNoTracking().FirstOrDefaultAsync();
             }
             catch (Exception ex)
             {
@@ -82,41 +56,61 @@ namespace DataAccess.DAO
             return product;
         }
 
-        public Product UpdateProduct(int productId, ProductRequest request)
+        public async Task<Product> CreateProduct(ProductRequest request)
+        {
+            Product product = new Product();
+            try
+            {
+                using var context = new ExerciseDbContext();
+
+                var mapper = MapperConfig.InititalizeAutomapper();
+                product = mapper.Map(request, product);
+
+                await context.Products.AddAsync(product);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return product;
+        }
+
+        public async Task<Product> UpdateProduct(int productId, ProductRequest request)
         {
             var product = new Product();
             try
             {
                 using var context = new ExerciseDbContext();
 
-                product = context.Products.Where(p => p.ProductId == productId).SingleOrDefault();
-                if(product == null)
+                product = await context.Products.Where(p => p.ProductId == productId).SingleOrDefaultAsync();
+                if (product == null)
                 {
                     return null;
                 }
 
-                product.Name = request.Name;
-                product.Description = request.Description;
-                product.Price= request.Price;
-                product.Quantity = request.Quantity;
-                product.CategoryId = request.CategoryId;
+                var mapper = MapperConfig.InititalizeAutomapper();
+                product = mapper.Map(request, product);
+
                 context.Products.Update(product);
-                context.SaveChanges();
-            }catch(Exception ex)
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
             return product;
         }
 
-        public bool DeleteProduct(int productId)
+        public async Task<bool> DeleteProduct(int productId)
         {
             try
             {
                 using var context = new ExerciseDbContext();
 
-                var product = context.Products.Where(p => p.ProductId == productId).SingleOrDefault();
-                if(product == null)
+                var product = await context.Products.Where(p => p.ProductId == productId).SingleOrDefaultAsync();
+                if (product == null)
                 {
                     return false;
                 }
