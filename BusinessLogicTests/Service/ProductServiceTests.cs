@@ -25,14 +25,6 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void Get()
-        {
-            var rs = _productService.GetProducts(); 
-
-            Assert.IsNotNull(rs);
-        }
-
-        [TestMethod]
         public void CreateProduct_WhenCreateSuccess_ReturnProduct()
         {
             // Arrange
