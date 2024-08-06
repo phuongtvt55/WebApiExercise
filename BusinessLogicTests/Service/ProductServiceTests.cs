@@ -26,7 +26,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void CreateProduct_ShouldCallCreateProductOnRepository()
+        public void CreateProduct_WhenCreateSuccess_ReturnProduct()
         {
             // Arrange
             var request = new ProductRequest
@@ -56,7 +56,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void CreateProduct_ShouldHandleInvalidRequest()
+        public void CreateProduct_WhenProductIsInvalid_ReturnNull()
         {
             // Arrange
             var invalidRequest = new ProductRequest
@@ -76,7 +76,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void DeleteProduct_ShouldCallRepositoryDeleteProduct()
+        public void DeleteProduct_WhenDeleteSuccess_ReturnTrue()
         {
             // Arrange
             int productId = 1;
@@ -90,7 +90,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void DeleteProduct_ShouldReturnFalseWhenNotFoundId()
+        public void DeleteProduct_WhenIdNotFound_ReturnFalse()
         {
             // Arrange
             int productId = 1;
@@ -103,7 +103,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void GetProductById_ShouldCallRepositoryGetProductById()
+        public void GetProductById_WhenGetSuccess_ReturnProduct()
         {
             // Arrange
             int productId = 1;
@@ -126,7 +126,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void GetProductById_ShouldReturnNullWhenNotFoundId()
+        public void GetProductById_WhenIdNotFound_ReturnNull()
         {
             // Arrange
             int productId = 1;
@@ -139,7 +139,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void GetProducts_ShouldCallRepositoryGetProducts()
+        public void GetProducts_WhenGetSuccess_ReturnProducts()
         {
             // Arrange
             var products = new List<Product>
@@ -164,7 +164,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void UpdateProduct_ShouldCallRepositoryUpdateProduct()
+        public void UpdateProduct_WhenUpdateSuccess_ReturnProduct()
         {
             // Arrange
             int productId = 1;
@@ -195,7 +195,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void UpdateProduct_ShouldHandleInvalidRequest()
+        public void UpdateProduct_WhenProductIsInvalid_ReturnNull()
         {
             // Arrange
             int productId = 1;
@@ -216,7 +216,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void UpdateProduct_ShouldReturnNullWhenNotFoundId()
+        public void UpdateProduct_WhenNotFoundId_ReturnNull()
         {
             // Arrange
             int productId = 1;

@@ -26,7 +26,7 @@ namespace BusinessLogic.Service.Tests
 
         }
         [TestMethod]
-        public void CreateCategory_ShouldCallCreateCategoryOnRepository()
+        public void CreateCategory_WhenCreateSuccess_ReturnCategory()
         {
             // Arrange
             var request = new CategoryRequest
@@ -48,7 +48,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void CreateCategory_ShouldHandleInvalidRequest()
+        public void CreateCategory_WhenCategoryIsInvalid_ReturnNull()
         {
             // Arrange
             var invalidRequest = new CategoryRequest
@@ -64,7 +64,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void UpdateCategory_ShouldCallUpdateCategoryOnRepository()
+        public void UpdateCategory_WhenUpdateSuccess_ReturnCategory()
         {
             // Arrange
             int categoryId = 1;
@@ -87,7 +87,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void UpdateCategory_ShouldReturnNullWhenInvalidRequest()
+        public void UpdateCategory_WhenProductIsInvalid_ReturnNull()
         {
             // Arrange
             int categoryId = 1;
@@ -104,7 +104,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void UpdateCategory_ShouldReturnNullWhenNotFoundId()
+        public void UpdateCategory_WhenNotFoundId_ReturnNull()
         {
             // Arrange
             int categoryId = 1;
@@ -121,7 +121,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void DeleteCategory_ShouldCallDeleteCategoryOnRepository()
+        public void DeleteCategory_WhenDeleteSuccess_ReturnTrue()
         {
             // Arrange
             int categoryId = 1;
@@ -135,7 +135,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void DeleteCategory_ShouldReturnFalseWhenNotFound()
+        public void DeleteCategory_WhenNotFoundId_ReturnFalse()
         {
             // Arrange
             int categoryId = 1;
@@ -148,7 +148,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void GetCategoryById_ShouldCallGetCategoryByIdOnRepository()
+        public void GetCategoryById_WhenGetSuccess_ReturnCategory()
         {
             // Arrange
             int categoryId = 1;
@@ -167,7 +167,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void GetCategoryById_ShouldReturnNullWhenNotFound()
+        public void GetCategoryById_WhenNotFoundId_ReturnNull()
         {
             // Arrange
             int categoryId = 1;
@@ -180,7 +180,7 @@ namespace BusinessLogic.Service.Tests
         }
 
         [TestMethod]
-        public void GetCategories_ShouldCallGetCategoriesOnRepository()
+        public void GetCategories_WhenGetSuccess_ReturnCategories()
         {
             // Arrange
             var categories = new List<Category>
