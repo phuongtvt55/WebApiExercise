@@ -36,38 +36,38 @@ namespace ExerciseApi.Controllers
             var category = _categoryService.CreateCategory(request);
             if(category != null)
             {
-                return Ok(new Response<string> { StatusCode = HttpStatusCode.OK, Message = "Create category successfully" });
+                return Ok(new Response<Category> { StatusCode = HttpStatusCode.OK, Message = "Create category successfully", Data = category });
             }
 
             return BadRequest(new Response<string> { StatusCode = HttpStatusCode.BadRequest, Message = "Invalid category" });
         }
 
 
-        [HttpPut]
-        public IActionResult UpdateCategory([FromQuery] int categoryId, [FromBody] CategoryRequest request)
+        [HttpPut("{id}")]
+        public IActionResult UpdateCategory([FromRoute] int id, [FromBody] CategoryRequest request)
         {
-            var category = _categoryService.UpdateCategory(categoryId, request);
+            var category = _categoryService.UpdateCategory(id, request);
             if (category != null)
             {
                 return Ok(new Response<Category> { StatusCode = HttpStatusCode.OK, Message = "Update category successfully", Data = category });
             }
             else
             {
-                return NotFound(new Response<string> { StatusCode = HttpStatusCode.NotFound, Message = $"Not found category with id {categoryId}" });
+                return NotFound(new Response<string> { StatusCode = HttpStatusCode.NotFound, Message = $"Not found category with id {id}" });
             }
         }
 
-        [HttpDelete]
-        public IActionResult DeleteCategory([FromQuery] int categoryId)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCategory([FromRoute] int id)
         {
-            var flag = _categoryService.DeleteCategory(categoryId);
+            var flag = _categoryService.DeleteCategory(id);
             if (flag)
             {
                 return Ok(new Response<string> { StatusCode = HttpStatusCode.OK, Message = "Delete category successfully" });
             }
             else
             {
-                return NotFound(new Response<string> { StatusCode = HttpStatusCode.NotFound, Message = $"Not found category with id {categoryId}" });
+                return NotFound(new Response<string> { StatusCode = HttpStatusCode.NotFound, Message = $"Not found category with id {id}" });
             }
         }
     }
